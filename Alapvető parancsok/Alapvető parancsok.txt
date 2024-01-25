@@ -1,0 +1,4 @@
+1. screen /dev/<portname> 115200
+2. import hub
+3. hub.display.show(‘Teodor’)
+4. hub.sound.beep(440,500)
