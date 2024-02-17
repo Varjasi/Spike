@@ -1,1 +1,1 @@
-pybricksdev run ble my_program.py
+pybricksdev run ble 1.py
