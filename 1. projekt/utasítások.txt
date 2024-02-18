@@ -1,0 +1,4 @@
+1. forduljon jobbra (90°-ot)
+2. menjen előre (150cm)
+3. forduljon balra (90°-ot)
+4. menjen előre (25cm-t)
