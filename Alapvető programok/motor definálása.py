@@ -15,7 +15,7 @@ def indít():
     wait(3000)
     def call():
         import subprocess
-        subprocess.run("pybricksdev run ble motor.py")
+        subprocess.run("pybricksdev run ble motor Alapvető parancsok\definálása.py")
     call()
 
 
