@@ -1,5 +1,7 @@
+import pybricks as file
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
+from pybricks.parameters import Stop
 from pybricks.tools import wait
 
 def indít():
@@ -9,7 +11,7 @@ def indít():
 
     # Make both motors run at 500 degrees per second.
     Jobb_motor.run_angle(-360, 360, wait=False)
-    Bal_motor.run_angle(200, 360, then=None)
+    Bal_motor.run_angle(200, 360, then=Stop.HOLD, wait=False)
 
     # Wait for three seconds.
     wait(1000)
