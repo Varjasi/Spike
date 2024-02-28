@@ -2,17 +2,31 @@ import pybricks as file
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
 from pybricks.parameters import Stop
+from pybricks.hubs import PrimeHub
+
 from pybricks.tools import wait
 
+hub = PrimeHub()
+
 def indít():
+    a = hub.battery.voltage()
+    print(f'Az akkumlátor feszültsége: {a}')
     # Initialize motors on port A and B.
-    Jobb_motor = Motor(Port.A, )
+    #Jobb_motor = Motor(Port.A, )
     Bal_motor = Motor(Port.B)
 
     # Make both motors run at 500 degrees per second.
-    Jobb_motor.run_angle(-360, 360, wait=False)
-    Bal_motor.run_angle(200, 360, then=Stop.HOLD, wait=False)
+    kezdőszög = Bal_motor.angle()
+    #sebesség = int(input("Adj meg egy sebességet!"))
 
+    Bal_motor.run_angle(180, 360, then=Stop.NONE, wait=True)
+    Bal_motor.run_angle(360, 360, then=Stop.HOLD, wait=True)
+    végszög = Bal_motor.angle()
+    print(f'A kezdőszög: {kezdőszög}, a végszög pedig: {végszög}')
+
+
+    a = hub.battery.voltage()
+    print(f'Az akkumlátor feszültsége: {a}')
     # Wait for three seconds.
     wait(1000)
     def call():
