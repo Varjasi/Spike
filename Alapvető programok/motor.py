@@ -3,6 +3,7 @@ from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
 from pybricks.parameters import Stop
 from pybricks.hubs import PrimeHub
+from micropython import *
 
 from pybricks.tools import wait
 
