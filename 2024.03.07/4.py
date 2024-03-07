@@ -20,29 +20,30 @@ wheel_diameter = float(55.8) #mm
 distance_to_degree = 360/3.1416/wheel_diameter
 v=180
 
+
 dist=50
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.HOLD, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.HOLD, wait=True)
+Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=True)
 
 # jobb kanyar
 S_bal = 70 #mm
 S_jobb = 20 #mm
-Bal_motor.run_angle(-v, S_bal*distance_to_degree, then=Stop.HOLD, wait=False)
-Jobb_motor.run_angle(v*S_jobb/S_bal, S_jobb*distance_to_degree, then=Stop.HOLD, wait=True)
+Bal_motor.run_angle(-v, S_bal*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v*S_jobb/S_bal, S_jobb*distance_to_degree, then=Stop.NONE, wait=True)
 
 dist=100
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.HOLD, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.HOLD, wait=True)
+Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=True)
 
 # bal kanyar
 S_bal = 20 #mm
 S_jobb = 70 #mm
-Bal_motor.run_angle(-v*S_bal/S_jobb, S_bal*distance_to_degree, then=Stop.HOLD, wait=False)
-Jobb_motor.run_angle(v, S_jobb*distance_to_degree, then=Stop.HOLD, wait=True)
+Bal_motor.run_angle(-v*S_bal/S_jobb, S_bal*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, S_jobb*distance_to_degree, then=Stop.NONE, wait=True)
 
 dist=400
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.HOLD, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.HOLD, wait=False)
+Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=False)
 
 while True:
     a = szín.hsv()
