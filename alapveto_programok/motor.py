@@ -7,7 +7,7 @@ import micropython
 from pybricks.tools import wait
 
 hub = PrimeHub()
-sebesseg = int(input("Adj meg egy sebességet"))
+#sebesseg = int(input("Adj meg egy sebességet"))
 def indít():
     a = hub.battery.voltage()
     print(f'Az akkumlátor feszültsége: {a}')
@@ -19,7 +19,7 @@ def indít():
     kezdőszög = Bal_motor.angle()
     #sebesség = int(input("Adj meg egy sebességet!"))
 
-    Bal_motor.run_angle(sebesseg, 360, then=Stop.NONE, wait=True)
+    Bal_motor.run_angle(1000, 360, then=Stop.NONE, wait=True)
     Bal_motor.run_angle(360, 360, then=Stop.HOLD, wait=True)
     végszög = Bal_motor.angle()
     print(f'A kezdőszög: {kezdőszög}, a végszög pedig: {végszög}')
@@ -29,10 +29,12 @@ def indít():
     print(f'Az akkumlátor feszültsége: {a}')
     # Wait for three seconds.
     wait(1000)
+    '''
     def call():
         import subprocess
-        subprocess.run("pybricksdev run ble motor.py")
+        subprocess.run("pybricksdev run ble alapveto_programok/motor.py")
     call()
+    '''
 
 
 indít()
