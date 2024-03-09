@@ -1,3 +1,5 @@
+Színérzékelés:
+
 - Piros közepén: (h=347, s=80, v=11)
 - Barna csík (Piros és fekete között): (h=0, s=19, v=5)
 - fekete csík: (240, 17, 7)
@@ -12,3 +14,9 @@
 - zöld építmény: (154, 71, 31)
 - kék építmény: (215, 86, 39)
 - 1cm-re a kék építménytől (220, 79, 19)
+
+IMU beállítás (gyorsulásérzékelő + giroszkóp mérő):
+
+küszöbérték: 4.97, 2498.96
+
+
