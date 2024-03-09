@@ -28,7 +28,7 @@ while index < 10:
         küszöbérték = hub.imu.settings()
         print(küszöbérték)
         print(hub.imu.heading())
-        print(hub.imu.acceleration())
+        print(PrimeHub.imu.acceleration())
         wait(500)
         index += 1
 

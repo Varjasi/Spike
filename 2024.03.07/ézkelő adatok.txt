@@ -1,16 +1,16 @@
 Színérzékelés:
 
-- Piros közepén: (h=347, s=80, v=11)
+- Piros közepén: (h=347-354, s=80-75, v=11-13)
 - Barna csík (Piros és fekete között): (h=0, s=19, v=5)
 - fekete csík: (240, 17, 7)
 - fehér csík: (240, 15, 18)
-- Barna pálya: (340, 40, 9)
-- Vastag fehér csík fölött (út): (200, 19, 20)
-- Fehér Vastagon belüli fekete csík (út): (240, 17, 7)
+- Barna pálya: (0-340, 40, 9)
+- Vastag fehér csík fölött (út): (200-64-0, 19, 20-22-24)
+- Fehér Vastagon belüli fekete csík (út): (240-210-180-0, 17-25-26-15, 7-5-9)
 - félig fehér és fekete határán (út): (210, 19, 13)
-- nagy sárga négyzet közepe: (48, 52, 19)
-- nagy kék négyzet: (240, 36, 5)
-- nagy zöld négyzet: (135, 45, 9)
+- nagy sárga négyzet közepe: (40-60, 52-100-59-48-88, 20-24-15)
+- nagy kék négyzet: (220-240, 36-51, 5)
+- nagy zöld négyzet: (135-150, 45-43-52, 9-11)
 - zöld építmény: (154, 71, 31)
 - kék építmény: (215, 86, 39)
 - 1cm-re a kék építménytől (220, 79, 19)
@@ -18,5 +18,7 @@ Színérzékelés:
 IMU beállítás (gyorsulásérzékelő + giroszkóp mérő):
 
 küszöbérték: 4.97, 2498.96
+
+
 
 
