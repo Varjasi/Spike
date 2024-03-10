@@ -6,6 +6,8 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait
 from pybricks.tools import StopWatch
+import pybricks.tools as szerszámok
+
 
 hub = PrimeHub()
 idő = StopWatch()
@@ -13,6 +15,9 @@ idő = StopWatch()
 #Vészcsengő
 dallam = ["C4/4", "C4/4", "G4/4", "G4/4"]
 hub.speaker.play_notes(dallam, tempo=400)
+
+a = szerszámok.read_input_byte()
+print(a)
 
 kívántszög = hub.imu.heading()
 v = 100
