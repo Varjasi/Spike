@@ -9,7 +9,7 @@ from pybricks.tools import StopWatch
 
 hub = PrimeHub()
 idő = StopWatch()
-szín = ColorSensor(Port.D)
+szín = ColorSensor(Port.C)
 
 #Vészcsengő
 def vészcsengő():
@@ -29,12 +29,13 @@ while True:
     szögmódosítás = alma.v-13
     kívántszög = alapszög - szögmódosítás
     delta_v = (kívántszög - szög) * szögszab
+    print(v-delta_v)
+    print(-v-delta_v)
     Bal_motor.run(v-delta_v)
     Jobb_motor.run(-v-delta_v)
-    ''' 
+    
     if idő.time() > 9000:
         kívántszög = 90
     elif idő.time() > 3000:
         kívántszög = 45
-'''
               

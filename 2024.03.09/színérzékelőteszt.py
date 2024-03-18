@@ -4,7 +4,7 @@ from pybricks.tools import wait
 from pybricks.hubs import PrimeHub
 
 hub = PrimeHub()
-szín = ColorSensor(Port.D)
+szín = ColorSensor(Port.C)
 
 #Vészcsengő
 dallam = ["C4/4", "C4/4", "G4/4", "G4/4"]

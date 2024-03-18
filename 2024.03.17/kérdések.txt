@@ -1,0 +1,1 @@
+1. Mi a különbség az egyenesmozgásfüggvény és a run_time között?
