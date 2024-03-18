@@ -33,8 +33,8 @@ Jobb_motor = Motor(Port.A)
 kezdőszög = Bal_motor.angle()
     #sebesség = int(input("Adj meg egy sebességet!"))
 
-wheel_diameter = float(55.8) #mm
-distance_to_degree = 360/3.1416/wheel_diameter
+kerékátmérő = float(55.8) #mm
+distance_to_degree = 360/3.1416/kerékátmérő
 v=180
 
 
