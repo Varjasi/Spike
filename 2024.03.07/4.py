@@ -34,13 +34,33 @@ kezdőszög = Bal_motor.angle()
     #sebesség = int(input("Adj meg egy sebességet!"))
 
 wheel_diameter = float(55.8) #mm
+
+'''
+Képlet
+'''
+
+
+
+
+
 distance_to_degree = 360/3.1416/wheel_diameter
+
+
+
+
+
+
+
+
+
+
+
 v=180
 
 
-dist=50
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=True)
+távolság=50
+Bal_motor.run_angle(-v, távolság*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, távolság*distance_to_degree, then=Stop.NONE, wait=True)
 
 # jobb kanyar
 S_bal = 70*3 #mm
@@ -48,9 +68,9 @@ S_jobb = 20*3 #mm
 Bal_motor.run_angle(-v, S_bal*distance_to_degree, then=Stop.NONE, wait=False)
 Jobb_motor.run_angle(v*S_jobb/S_bal, S_jobb*distance_to_degree, then=Stop.NONE, wait=True)
 
-dist=100
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=True)
+távolság=100
+Bal_motor.run_angle(-v, távolság*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, távolság*distance_to_degree, then=Stop.NONE, wait=True)
 print(f'Középszög: {hub.imu.heading()} \n')
 # bal kanyar
 S_bal = 20*3 #mm
@@ -58,9 +78,9 @@ S_jobb = 70*3 #mm
 Bal_motor.run_angle(-v*S_bal/S_jobb, S_bal*distance_to_degree, then=Stop.NONE, wait=False)
 Jobb_motor.run_angle(v, S_jobb*distance_to_degree, then=Stop.NONE, wait=True)
 
-dist=400
-Bal_motor.run_angle(-v, dist*distance_to_degree, then=Stop.NONE, wait=False)
-Jobb_motor.run_angle(v, dist*distance_to_degree, then=Stop.NONE, wait=False)
+távolság=400
+Bal_motor.run_angle(-v, távolság*distance_to_degree, then=Stop.NONE, wait=False)
+Jobb_motor.run_angle(v, távolság*distance_to_degree, then=Stop.NONE, wait=False)
 
 while True:
     if terepzöld():
