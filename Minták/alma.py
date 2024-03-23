@@ -6,9 +6,7 @@ from pybricks.tools import wait, StopWatch
 from pybricks.tools import multitask, run_task
 
 hub = InventorHub()
-drive = DriveBase()
 
-drive.straight(50, then=Stop.HOLD, wait=False)
 Markoló_motor = Motor(Port.C)
 print("Indulok")
 hub.speaker.beep(440,100)
