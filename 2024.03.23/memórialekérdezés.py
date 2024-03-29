@@ -7,5 +7,5 @@ hub = pybricks.hubs()
 
 # Print memory usage.
 while True:
-    mem_info()
+    mem_info(
     wait(1000)
