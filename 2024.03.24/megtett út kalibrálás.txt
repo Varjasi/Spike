@@ -1,0 +1,7 @@
+Paraméterek: 
+
+Kerékátmérő: 56
+V: 400, S: 1000, A: 600, S eredmény: 993mm
+V: 300, S: 1000, A: 600, S eredmény: 988mm
+V: 300, S: 1000, A: 300, S eredmény: 992mm
+

@@ -64,10 +64,11 @@ def kanyar(szög, sebesség, sugár):
         else:
             if hub.imu.heading() < szög2:
                 break
-
+'''
 egyenesmozgás(400, 200, 1000)
 egyenesmozgás(100, 100, 1000)
 
 kanyar(270, 100, 150)
 kanyar(-90, 100, 150)
+'''
 egyenesmozgás(100, 100, 1000)

@@ -47,7 +47,13 @@ def vonalkövetés():
         if idő.time() > 9000:
             kívántszög = 90
         elif idő.time() > 3000:
-            kívántszög = 45
+             kívántszög = 45
+
+             
+def call():
+    import subprocess
+    subprocess.run("pybricksdev run ble 2024.03.18/vonalkövetés + színérézkelés.py")
+call()
 
 vonalkövetés()
 
