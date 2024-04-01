@@ -21,27 +21,46 @@ distance_to_degree = 360/3.1416/kerékátmérő
 
 def egyenesmozgás(hossz, végsebesség, gyorsulás):
     s1 = (Bal_motor.angle()-Jobb_motor.angle()) / 2 / distance_to_degree
-    s2 = s1 + hossz
+    if végsebesség > 0:
+        s2 = s1 + hossz
+    else:
+        s2 = s1 - hossz
     v1 = (Bal_motor.speed()-Jobb_motor.speed()) / 2 / distance_to_degree
     dv = gyorsulás * 0.01
     v = v1
     while True:
-        if végsebesség > v1:
-            if (v + dv) > végsebesség:
-                v = végsebesség
+        if végsebesség > 0:
+            if végsebesség > v1:
+                if (v + dv) > végsebesség:
+                    v = végsebesség
+                else:
+                    v += dv
             else:
-                v += dv
-        else:
-            if (v - dv) < végsebesség:
-                v = végsebesség
+                if (v - dv) < végsebesség:
+                    v = végsebesség
+                else:
+                    v -= dv
+        else: #Negatív végsebesség
+            if végsebesség < v1: #Gyorsítás negatív irányba
+                if (v - dv) < végsebesség:
+                    v = végsebesség
+                else:
+                    v -= dv
             else:
-                v -= dv
+                if (v + dv) > végsebesség:
+                    v = végsebesség
+                else:
+                    v += dv
 
         Bal_motor.run(v * distance_to_degree)
         Jobb_motor.run(-v * distance_to_degree)
         s = (Bal_motor.angle()-Jobb_motor.angle()) / 2 / distance_to_degree
-        if s > s2:
-            break
+        if végsebesség > 0:
+            if s > s2:
+                break
+        else:
+            if s<s2:
+                break
         wait(10)
 
 # Kanyarodás állandó sebességgel (giroszkóppal)
@@ -71,4 +90,4 @@ egyenesmozgás(100, 100, 1000)
 kanyar(270, 100, 150)
 kanyar(-90, 100, 150)
 '''
-egyenesmozgás(100, 100, 1000)
+egyenesmozgás(100, 100, 100)
