@@ -1,0 +1,1 @@
+from egyenesutvegsebeseggel import PontOdáigMegy
