@@ -5,40 +5,7 @@ from pybricks.robotics import DriveBase
 from pybricks.tools import wait, StopWatch
 from pybricks.tools import multitask, run_task
 from umath import pi
-#from datalogger import InitDataLogger, PushData, PrintLoggedData
 
-def clear(): # terminál ablak törlése
-    print("\x1b[H\x1b[3J", end="")
-    print("\x1b[H\x1b[2J", end="")
-
-def InitDataLogger(hossz):
-    global a
-    global n_max
-    global n
-    n = 0
-    n_max = hossz
-    clear()
-    # Fusi helyfoglalás 4*100 kétdimenziós tömbnek
-    a=[[0,0,0,0],[0,0,0,1]]
-    for i in range(2,n_max):
-        a.append([0,0,0,i])
-
-def PushData(v1,v2,v3):
-    global n
-    global a
-    global n_max
-    if (n<n_max):
-        a[n] = [n,v1,v2,v3]
-        n = n+1
-
-def PrintLoggedData():
-    global a
-    global n
-    # Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
-    for i in range(n) :  
-        for j in range(len(a[i])) :  
-            print(a[i][j], end=" ") 
-        print()
 '''
 Tanulságok:
 - ha gyorsan megy driftel, pontatlan lesz a kanyar
@@ -65,7 +32,9 @@ def kanyar(sebesség,sugár,szög):
     szög_bal = szög*(sugár-tengelytáv/2)/(kerékátmérő/2)
     Jobb_motor.run_angle(-v_jobb,szög_jobb,Stop.HOLD,wait=False)
     Bal_motor.run_angle(v_bal,szög_bal,Stop.HOLD,wait=True)
-
+def clear(): # terminál ablak törlése
+    print("\x1b[H\x1b[3J", end="")
+    print("\x1b[H\x1b[2J", end="")
 
 def MarkolóNyit():
     markoló.dc(50)
@@ -80,16 +49,13 @@ def DaruLeenged():
 def MarkolóZár():
     markoló.control.limits(None,None,60)
     markoló.run(-300)
-    for i in range(n_max):
-        PushData(markoló.angle(),markoló.load(),markoló.speed())
-        wait(10)
     '''
     wait(100)
     print(f' Szög: {markoló.angle()},Terheles: {markoló.load()}')    
     wait(100)
     print(f' Szög: {markoló.angle()},Terheles: {markoló.load()}')
     '''
-    #wait(1000)
+    wait(1000)
     #print(f' Szög: {markoló.angle()},Terheles: {markoló.load()}')
 
 def DaruEmel(szög):
@@ -105,7 +71,6 @@ def Haladás(hossz):
         BalMotor.run_angle(-300,-hossz,wait=False)
         JobbMotor.run_angle(+300,-hossz,wait=True)
 
-InitDataLogger(100)
 
 hub = InventorHub()
 BalMotor = Motor(Port.A)
@@ -125,14 +90,15 @@ MarkolóZár()
 DaruEmel(160)
 Haladás(-200)
 MarkolóNyit()
-
-PrintLoggedData()
 '''
 v1 = 30 
 v2 = 80
 n = 0
 n_max = 1
-
+# Fusi helyfoglalás 4*100 kétdimenziós tömbnek
+a=[[0,0,0,0],[0,0,0,1]]
+for i in range(2,n_max):
+    a.append([0,0,0,i])
 
 motor.dc(-60)
 wait(2000)
@@ -150,7 +116,13 @@ while (n<n_max):
 '''
 
 
-
+# Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
+if (adatgyűjt):
+    clear() # Terminál ablak törlése
+    for i in range(len(a)) :  
+        for j in range(len(a[i])) :  
+            print(a[i][j], end=" ") 
+        print()
 hub.speaker.beep(220,100)
 wait(100)
 
