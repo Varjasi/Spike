@@ -40,7 +40,7 @@ def kanyar(szög, sebesség, sugár):
     while True:
         if szög > 0:
             if hub.imu.heading() > szög2:
-                print(szög1, szög2)
+                #print(szög1, szög2)
                 break
         else:
             if hub.imu.heading() < szög2:
@@ -81,7 +81,7 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
         fékút = s2 - s # Hátralévő út
         if fékút < 1:
             break        
-        v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség )
+        v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség ) #Amekkora sebességről tudnák lefékezni
         if v > v_fékút:
             v = v_fékút
         
@@ -98,6 +98,7 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
             n += 1
 
 # Fusi helyfoglalás 4*100 kétdimenziós tömbnek a rekorder funkcióhoz
+#pritty pratty putty
 n_max = 1000
 rekord_minta = [1,2,3,4,5,6,7,8]
 a=[rekord_minta,rekord_minta]
@@ -108,15 +109,15 @@ Bal_motor.reset_angle(0)
 Jobb_motor.reset_angle(0)
 #Bal_motor.run_time(-100, 1000)
 #Jobb_motor.run_time(100, 1000)
-PontOdáigMegy(300, 200, 300, 100, 0)
-kanyar(180,100,100,)
-PontOdáigMegy(400, 200, 300, 100, 180)
-kanyar(180,100,100)
-PontOdáigMegy(100, 200, 300, 100,360)
+
+PontOdáigMegy(1000, 200, 300, 0)
+#PontOdáigMegy(400, 200, 300, 100, 180)
+#PontOdáigMegy(100, 200, 300, 100,360)
+
 #PontOdáigMegy(100, 50, 300, 0)  
 
-Jobb_motor.stop()
-Bal_motor.stop()
+Jobb_motor.hold()
+Bal_motor.hold()
 
 # Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
 clear() # Terminál ablak törlése

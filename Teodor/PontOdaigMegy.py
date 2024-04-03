@@ -29,10 +29,7 @@ def PontOdáigMegy(hossz, végsebesség, gyorsulás):
     global n
     global n_max
     global distance_to_degree
-    s1 = (Jobb_motor.angle()-Bal_motor.angle()) / 2 / distance_to_degree #Kiindulási út, ahol tart a motor
-    print(s1)
-    print(Jobb_motor.angle())
-    print(Bal_motor.angle())
+    s1 = (Jobb_motor.angle()-Bal_motor.angle()) / 2 / distance_to_degree #Kiindulási út
     s2 = s1 + hossz #Úticél
     v1 = (Jobb_motor.speed()-Bal_motor.speed()) / 2 / distance_to_degree #Kiindulási sebesség
     dv = gyorsulás * 0.01 #10 ms-onként mennyit változtathatunk a sebességen
@@ -53,8 +50,6 @@ def PontOdáigMegy(hossz, végsebesség, gyorsulás):
                 v -= dv
         s = (Jobb_motor.angle()-Bal_motor.angle()) / 2 / distance_to_degree
         fékút = s2 - s # Hátralévő út
-        #print(s)
-        #EZT NEM ÉRTEM
         if fékút < 1:
             break        
         v_fékút = sqrt(2*fékút*gyorsulás)
@@ -82,8 +77,8 @@ for i in range(2,n_max):
 n = 0
 
 PontOdáigMegy(100, -300, 300)  
-Jobb_motor.hold()
-Bal_motor.hold()
+Jobb_motor.stop()
+Bal_motor.stop()
 
 # Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
 clear() # Terminál ablak törlése

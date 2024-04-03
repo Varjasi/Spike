@@ -9,7 +9,6 @@ from pybricks.tools import wait
 szín = ColorSensor(Port.D)
 hub = PrimeHub()
 #sebesseg = int(input("Adj meg egy sebességet"))
-'''
 def indít():
     wait(1000)
     #sebesseg = input("Add meg az sebességet!")
@@ -33,7 +32,6 @@ def indít():
     wait(1000)
     #Nyomaték
     '''
-'''
     T = Bal_motor.load()
     print(f'Nyomaték: \n {T}')
     wait(2000)
@@ -57,8 +55,7 @@ def indít():
 
         # Wait so we can read the value.
         wait(1000)
-        '''
-        '''
+        
 def call():
     import subprocess
     subprocess.run("pybricksdev run ble 2024.03.07/1.py")
