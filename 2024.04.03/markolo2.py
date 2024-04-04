@@ -45,18 +45,18 @@ Tanulságok:
 - ha a gyorsulást próbáljuk meg visszavenni, rosszul működik a szabályozója
 '''
 
-'''
+
 hub = InventorHub()
-Jobb_motor = Motor(Port.A)
-Bal_motor = Motor(Port.B)
+Jobb_motor = Motor(Port.B)
+Bal_motor = Motor(Port.A)
 Idő = StopWatch()
 kerékátmérő = 56
 tengelytáv = 93
 fok_út = 360/pi/kerékátmérő
 alma = [0,1,2,3,4,5,6,7,8,9,10]
 alma[2] = 3
-print(alma[2])
-'''
+#print(alma[2])
+
 def kanyar(sebesség,sugár,szög):
     v = sebesség * fok_út / sugár
     v_jobb = v*(sugár+tengelytáv/2)
@@ -99,17 +99,15 @@ def DaruEmel(szög):
 
 def Haladás(hossz):
     if (hossz>0):
-        BalMotor.run_angle( 300,hossz,wait=False)
-        JobbMotor.run_angle(-300,hossz,wait=True)
+        Bal_motor.run_angle( 300,hossz,wait=False)
+        Jobb_motor.run_angle(-300,hossz,wait=True)
     else:
-        BalMotor.run_angle(-300,-hossz,wait=False)
-        JobbMotor.run_angle(+300,-hossz,wait=True)
+        Bal_motor.run_angle(-300,-hossz,wait=False)
+        Jobb_motor.run_angle(+300,-hossz,wait=True)
 
 InitDataLogger(100)
 
 hub = InventorHub()
-BalMotor = Motor(Port.A)
-JobbMotor = Motor(Port.B)
 daru = Motor(Port.F)
 markoló = Motor(Port.D)
 Idő = StopWatch()
@@ -120,7 +118,7 @@ Haladás(360)
 Haladás(-140)
 MarkolóNyit()
 DaruLeenged()
-DaruEmel(70)
+DaruEmel(55)
 MarkolóZár()
 DaruEmel(160)
 Haladás(-200)

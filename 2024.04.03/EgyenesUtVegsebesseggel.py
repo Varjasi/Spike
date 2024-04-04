@@ -47,6 +47,7 @@ def kanyar(szög, sebesség, sugár):
                 break
 
 def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
+    # Hátra menetben csak a hossz negatív, a többi paraméter abszolút értéket jelent
     global n
     global n_max
     global distance_to_degree
@@ -67,24 +68,43 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
         ELÁGAZÁS FELADATA: - Gyorsulás korlátozása
         
         '''
-        if maxsebesség > v1:
-            if (v + dv) > maxsebesség:
-                v = maxsebesség
+        if hossz>0:
+            if maxsebesség > v1:
+                if (v + dv) > maxsebesség:
+                    v = maxsebesség
+                else:
+                    v += dv
             else:
-                v += dv
+                if (v - dv) < maxsebesség:
+                    v = maxsebesség
+                else:
+                    v -= dv
         else:
-            if (v - dv) < maxsebesség:
-                v = maxsebesség
-            else:
-                v -= dv
+            if -maxsebesség < v1: # negatív irány, gyorsítani akarunk
+                if (v - dv) < -maxsebesség:
+                    v = -maxsebesség
+                else:
+                    v -= dv
+            else: # negatív irány, lassítani akarunk
+                if (v + dv) > -maxsebesség:
+                    v = -maxsebesség
+                else:
+                    v += dv
         s = (Jobb_motor.angle()-Bal_motor.angle()) / 2 / distance_to_degree
-        fékút = s2 - s # Hátralévő út
-        if fékút < 1:
-            break        
-        v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség ) #Amekkora sebességről tudnák lefékezni
-        if v > v_fékút:
-            v = v_fékút
-        
+        if hossz>0:
+            fékút = s2 - s # Hátralévő út
+            if fékút < 1:
+                break        
+            v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség ) #Amekkora sebességről tudnák lefékezni
+            if v > v_fékút:
+                v = v_fékút
+        else:
+            fékút = s - s2 # Hátralévő út, negatív iránynál is pozitív érték
+            if fékút < 1:
+                break        
+            v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség ) #Amekkora sebességről tudnák lefékezni
+            if v < -v_fékút:
+                v = -v_fékút
         v_jobb = v+v_modosítás
         v_bal = v-v_modosítás
         Jobb_motor.run(v_jobb * distance_to_degree)
@@ -110,8 +130,7 @@ Jobb_motor.reset_angle(0)
 #Bal_motor.run_time(-100, 1000)
 #Jobb_motor.run_time(100, 1000)
 
-PontOdáigMegy(1000, -200, 300, 0)
-kanyar(90, 400, 180)
+PontOdáigMegy(1000, 200, 300, 0)
 #PontOdáigMegy(400, 200, 300, 100, 180)
 #PontOdáigMegy(100, 200, 300, 100,360)
 
