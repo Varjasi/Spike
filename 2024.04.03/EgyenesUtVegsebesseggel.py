@@ -9,6 +9,9 @@ from umath import sqrt
 Jobb_motor = Motor(Port.B)
 Bal_motor = Motor(Port.A)
 
+daru = Motor(Port.F)
+
+
 hub = PrimeHub()
 idő = StopWatch()
 szín = ColorSensor(Port.C)
@@ -19,7 +22,7 @@ hub.speaker.play_notes(dallam, tempo=400)
 kerékátmérő = 55.55
 tengelytáv = 128
 distance_to_degree = 360/3.1416/kerékátmérő
-SzögSzab = 5 # mm/s/fok
+SzögSzab = 2 # mm/s/fok
 
 def clear(): # terminál ablak törlése
     print("\x1b[H\x1b[3J", end="")
@@ -45,6 +48,19 @@ def kanyar(szög, sebesség, sugár):
         else:
             if hub.imu.heading() < szög2:
                 break
+
+def DaruLeenged():
+    daru.dc(30)
+    wait(2000)
+    daru.reset_angle(0)
+
+def DaruEmel(szög):
+    #motor.control.limits(None,100,100)
+    #motor.run_time(-300,idő,Stop.HOLD,wait=True)
+    daru.run_angle(-300,szög,Stop.HOLD,wait=True)
+
+
+
 
 def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
     # Hátra menetben csak a hossz negatív, a többi paraméter abszolút értéket jelent
@@ -129,8 +145,16 @@ Bal_motor.reset_angle(0)
 Jobb_motor.reset_angle(0)
 #Bal_motor.run_time(-100, 1000)
 #Jobb_motor.run_time(100, 1000)
-
-PontOdáigMegy(1000, 200, 300, 0)
+'''
+Mehívások
+'''
+DaruLeenged()
+DaruEmel(250)
+hub.imu.reset_heading(0)
+PontOdáigMegy(1000, 200, 300, 200,0)
+hub.speaker.beep(1000, 100)
+kanyar(-90, 200, 180)
+PontOdáigMegy(100, 200, 300, 0,-90)
 #PontOdáigMegy(400, 200, 300, 100, 180)
 #PontOdáigMegy(100, 200, 300, 100,360)
 
