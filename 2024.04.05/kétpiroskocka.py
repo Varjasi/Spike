@@ -196,7 +196,7 @@ if adatgyűjtés:
 hub.speaker.play_notes(dallam, tempo=400) #Vészcsengő
 
 '''
-Mehívások
+Meghívások
 '''
 MarkolóNyit()
 DaruKalibráció()
