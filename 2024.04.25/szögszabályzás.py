@@ -1,11 +1,11 @@
 import pybricks as file
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
-from pybricks.parameters import Stop
+from pybricks.parameters import Stop, Axis
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait, StopWatch
-from umath import sqrt
+from umath import sqrt, atan2, pi, cos, sin
 Jobb_motor = Motor(Port.B)
 Bal_motor = Motor(Port.A)
 
@@ -33,17 +33,17 @@ def kanyar(szög=atan2(Y2-Y1,X2-X1), sebesség, sugár):
     else:
         v_bal = sebesség * (sugár - tengelytáv / 2)/sugár
         v_jobb = sebesség * (sugár + tengelytáv / 2)/sugár
-    szög1 = hub.imu.heading()
+    szög1 = -pi/180*hub.imu.heading()
     szög2 = szög1 + szög
     Bal_motor.run(-v_bal * distance_to_degree)
     Jobb_motor.run(v_jobb * distance_to_degree)
     while True:
         if szög > 0:
-            if hub.imu.heading() > szög2:
+            if -pi/180*hub.imu.heading() > szög2:
                 #print(szög1, szög2)
                 break
         else:
-            if hub.imu.heading() < szög2:
+            if -pi/180*hub.imu.heading() < szög2:
                 break
 
 def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
