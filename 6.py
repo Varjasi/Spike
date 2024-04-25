@@ -27,4 +27,3 @@ elif Button.BLUETOOTH in pressed:
     hub.display.icon(Icon.ARROW_RIGHT_UP)
 
 wait(3000)
-hub.speaker.
