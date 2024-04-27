@@ -308,16 +308,16 @@ def MenjFalnak():
         alfa -= 2*pi
     while alfa<0:
         alfa += 2*pi 
-    alfa += pi/4
+    # alfa most már 0 és 2*pi között van
     # feltételezzük, hogy legalább +- 45 fok alatti hibával merőleges a kérdéses palánkhoz
     # ebből tudjuk eldönteni, hogy melyik falnak tolattunk neki
-    if (alfa<pi/2) | (alfa>pi*2): # bal oldali palánknak ütköztünk
+    if (alfa<pi/4) | (alfa>pi*7/4): # bal oldali palánknak ütköztünk
         hub.imu.reset_heading(0)
         X = Xbal
-    elif alfa<pi*2/2: # alsó palánk
+    elif alfa<pi*3/4: # alsó palánk
         hub.imu.reset_heading(-90)
         Y = Yalsó
-    elif alfa<pi*3/2: # jobb palánk
+    elif alfa<pi*5/4: # jobb palánk
         hub.imu.reset_heading(-180)
         X = Xjobb
     else: # akkor csak a felső palánk lehet

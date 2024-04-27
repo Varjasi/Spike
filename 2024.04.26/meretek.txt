@@ -1,5 +1,5 @@
 -	1081, 572 #Nagy sárga közepe
--	76, 997 # Bal alsó piros kocka közepe
+-	997, 76 # Bal alsó piros kocka közepe
 - 872, 1067	 #Bal felső piros közepe
 -  95, 367  #Bal fehér Vízvezeték tárcsa közepe
 - 2183 ,685 # Jobb zöld Vízvezeték tárcsa 
