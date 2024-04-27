@@ -6,13 +6,7 @@ from usys import stdout
 # must before tqdm import!
 os.environ["TQDM_DISABLE"] = "1"
 
-lista = []
 bemenet = input("Adj meg 3 értéket")
-index = 0
-while index < 3:
-     bemenet = input("Adj meg egy újabb értéket")
-     lista.append(bemenet)
-     index += 1
 
 from pybricksdev.ble import find_device
 from pybricksdev.connections.pybricks import PybricksHub
@@ -54,11 +48,11 @@ async def main():
 
         await hub.run("pontodáigmegy.py", print_output=True, wait=False)
         stack.push_async_callback(stop_if_running, hub)
-        await send_command(hub, lista)
+        await send_command(hub, bemenet)
         await asyncio.sleep(3)
-        await send_command(hub, lista)
+        await send_command(hub, bemenet)
         await asyncio.sleep(3)
-        await send_command(hub, lista)
+        await send_command(hub, bemenet)
 
 
 asyncio.run(main())
