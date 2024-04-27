@@ -29,10 +29,11 @@ fok_per_mm = 360/pi/kerékátmérő
 s_hátfal = 58 # hátfal távolsága a tengelytől
 
 # Pályaadatok. Az első négyet a helyszínen ellenőrizni kell
-Pályaszélesség = 2300 # Ezt a helyszínen meg kell mérni és változtatni kell!
-Pályamagasság = 1200 # Ezt a helyszínen meg kell mérni és változtatni kell!
-BalPalánk = 70 # a baloldali palánk távolsága a szemetestől fehér téglalapjától
+Pályaszélesség = 2350 # A palánkok közötti távolság
+Pályamagasság = 1141 # A palánkok közötti távolság
+BalPalánk = 70 # a baloldali palánk távolsága a szemetes fehér téglalapjától
 AlsóPalánk = 62 # az alsó palánk távolsága az induló fehér négyzettől
+
 Xbal = 70-BalPalánk+s_hátfal 
 Xjobb = Xbal+Pályaszélesség - 2*s_hátfal
 Yalsó = 62-AlsóPalánk+s_hátfal 
