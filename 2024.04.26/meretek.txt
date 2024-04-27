@@ -1,0 +1,12 @@
+-	1081, 572 #Nagy sárga közepe
+-	76, 997 # Bal alsó piros kocka közepe
+- 872, 1067	 #Bal felső piros közepe
+-  95, 367  #Bal fehér Vízvezeték tárcsa közepe
+- 2183 ,685 # Jobb zöld Vízvezeték tárcsa 
+- 2051, 995  #Szélső jobb, felső kocka közepe
+- 2026, 791.5  #Jobb szürke szemét
+- 687.5, 1079 #Jobb felső szemét közepe
+- 737, 561.5 #sárgaszemét Bal közepe
+- 1635, 571.5 #sárgaszemét jobb közepe
+- 1401 ,827 #
+- 1498 , 827 # Akadályos induló hely bal alsó sarok

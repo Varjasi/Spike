@@ -1,11 +1,9 @@
-import pybricks as file
+
 from pybricks.pupdevices import Motor
 from pybricks.parameters import Port
-from pybricks.parameters import Stop
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait, StopWatch
-from umath import sqrt
 Jobb_motor = Motor(Port.B)
 Bal_motor = Motor(Port.A)
 
@@ -81,7 +79,7 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
         fékút = s2 - s # Hátralévő út
         if fékút < 1:
             break        
-        v_fékút = sqrt(2*fékút*gyorsulás+végsebesség*végsebesség ) #Amekkora sebességről tudnák lefékezni
+        v_fékút = 2*fékút*gyorsulás+végsebesség*végsebesség  #Amekkora sebességről tudnák lefékezni
         if v > v_fékút:
             v = v_fékút
         
@@ -91,20 +89,10 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
         Bal_motor.run(-v_bal * distance_to_degree)
 
         wait(5)
-        if (n<n_max):
-            #a[n] = [n, idő.time(), v_bal, v_jobb, alfa, s, Jobb_motor.speed(), -Bal_motor.speed()]
-            hsv = szín.hsv()
-            a[n] = [n, idő.time(), hsv.h, hsv.s, hsv.v, s, Jobb_motor.speed(), -Bal_motor.speed()]
-            n += 1
 
 # Fusi helyfoglalás 4*100 kétdimenziós tömbnek a rekorder funkcióhoz
 #pritty pratty putty
-n_max = 1000
-rekord_minta = [1,2,3,4,5,6,7,8]
-a=[rekord_minta,rekord_minta]
-for i in range(2,n_max):
-    a.append(rekord_minta)
-n = 0
+
 Bal_motor.reset_angle(0)
 Jobb_motor.reset_angle(0)
 #Bal_motor.run_time(-100, 1000)
@@ -119,14 +107,5 @@ kanyar(90, 400, 180)
 
 Jobb_motor.hold()
 Bal_motor.hold()
-
-# Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
-clear() # Terminál ablak törlése
-for i in range(n) :  
-    for j in range(len(a[i])) :  
-        adatok = (a[i][j])        
-        # lista elemeit írja a terminálra
-        print(adatok, end=' ')
-    print() # új sor
 
 #print(distance_to_degree)
