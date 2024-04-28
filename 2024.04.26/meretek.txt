@@ -11,3 +11,4 @@
 - 1635, 571.5 #sárgaszemét jobb közepe
 - 1401 ,827 # Hidas induló bal alsó sarok
 - 1498 , 827 # Akadályos induló hely bal alsó sarok
+- 997, 76 #alsó piros kocka közepe
