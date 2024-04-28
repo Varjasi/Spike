@@ -6,6 +6,7 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait, StopWatch
 from umath import sqrt, pi, cos, sin, atan2
+from pybricks.tools import multitask, run_task
 
 idő = StopWatch()
 kezdőidő = idő.time()
@@ -44,6 +45,7 @@ tengelytáv = 128
 fok_per_mm = 360/pi/kerékátmérő
 s_hátfal = 58 # hátfal távolsága a tengelytől
 szélesség = 143
+s_színérézkelő = 24 #színérzékelő távolsága a tengelytől
 
 # Pályaadatok. Az első négyet a helyszínen ellenőrizni kell !!!
 Pályaszélesség = 2350 # Ezt a helyszínen meg kell mérni és változtatni kell!
@@ -108,8 +110,8 @@ def DaruKalibráció():
 def DaruBeállít(szög):
     daru.run_target(200,-szög,Stop.BRAKE,wait=True)
     
-def DaruFelránt(szög):
-    daru.run_target(1000,-szög,Stop.HOLD,wait=True)
+def DaruGyorsÁllítás(szög, megvárja = False):
+    daru.run_target(1000,-szög,Stop.HOLD,wait=megvárja)
 
 def MarkolóNyit():
     markoló.run_until_stalled(1000,Stop.BRAKE,60)
@@ -227,7 +229,7 @@ def Mozgás(hossz, maxsebesség=AlapSebesség, gyorsulás=AlapGyorsulás, végse
         X += delta_s * cos(alfa)
         Y += delta_s * sin(alfa)
         s_előző = s
-        PozícióSzínnél()
+        PozícióSzínnél() #Elértük vagy nem értük el(False or True)
 
         # A hátralévő út és a hozzátartozó maximális fékezéssel megengedett sebesség számítása
         if hossz>0:
@@ -309,8 +311,9 @@ def PozícióSzínnél():
         if Padlószín.v < KeresendőSzín.VolumeMin:
             Elértük = False
     if Elértük:
-        Xszín = X
+        Xszín = X #Azokat a koordinátákat adják, amelyet elértünk
         Yszín = Y
+    return(Elértük)
 
 
 def MenjFalnak():
@@ -346,11 +349,19 @@ def MenjFalnak():
     Bal_motor.brake()
     wait(200) # hogy biztosan megálljunk
 
+async def beep():
+    hub.speaker.beep(440,100)
+
+async def Tolatás():
+    await multitask(beep(), )
+
+
 def MenjPonthoz(X2, Y2, Utazósebesség=AlapSebesség ,Végsebesség=0, Előre=True):
     global X,Y
     s = sqrt((X2-X)*(X2-X)+(Y2-Y)*(Y2-Y)) # a derékszögű háromszög átlója
     alfa2 = atan2(Y2-Y,X2-X) # az alapon lévő szög, radiánban
     if Előre==False:
+        Tolatás()
         alfa2 = alfa2 + pi # ha farolunk, 180-fokot fordulunk és rükverz
         s = -s
     alfa1 = IrányOlvasás() #Kiindulási
@@ -408,13 +419,31 @@ wait(200)
 daru.dc(20)
 wait(2000)
 daru.reset_angle(0)
-DaruFelránt(280)
+DaruGyorsÁllítás(280)
 
 # közelítünk a piros kockához
 MenjPonthoz(500, 58+25)  # eljöttünk a faltal egy kicsit
-KeressFehéret()
-MenjPonthoz(997, 76, Utazósebesség=100) # beállunk a kocka magasságába
+KeressFehéret() #Az Xszín-be megadja a fehér szín koordinátáit
+MenjPonthoz(700, 76, Utazósebesség=100, Végsebesség=0) # beállunk a kocka magasságába
+DaruGyorsÁllítás(88, megvárja=False)
+X += 627+s_színérézkelő-Xszín #sárga téglalap bal szélének X koordinátája = 627, 24=színérzékelő távolsága a tengelytől
 print(Xszín,Yszín)
+MenjPonthoz(1094-208, 76) #Második piros fölött van a markoló
+
+DaruBeállít(78)
+MarkolóZár()
+
+wait(2000)
+DaruBeállít(98)
+wait(2000)
+MenjPonthoz(X-200, Y+20, Előre=False, Utazósebesség=200)
+MenjPonthoz(881, 150)
+MenjPonthoz(881, 572-108+20)
+DaruBeállít(150)
+MenjPonthoz(X, 572-108+20-90, Előre=False, Utazósebesség=200)
+MarkolóNyit()
+DaruGyorsÁllítás(280)
+
 
 '''
 KeressFeketét()
@@ -422,7 +451,7 @@ KeressFeketét()
 MenjPonthoz(1081,772+3) # nagy sárga közepe fölé 20cm-rel
 print(Xszín,Yszín)
 daru.reset_angle(0)
-DaruFelránt(78)
+DaruGyorsÁllítás(78)
 MenjPonthoz(780+40,972) # szürke szemetes fölé megyünk
 print(Xszín,Yszín)
 
@@ -436,7 +465,7 @@ MenjPonthoz(921,687+20+20) #Sárga szemét közelébe
 MenjPonthoz(310, 170+20+20) #Végállomásra
 DaruBeállít(100)
 MarkolóNyit()
-DaruFelránt(300)
+DaruGyorsÁllítás(300)
 
 # Pozciót kalibráljuk, alsó, majd a bal palánknak ütközve
 MenjPonthoz(504,310,Előre=False)
@@ -452,7 +481,7 @@ MenjPonthoz(183,YaPöcköléshez)
 DaruBeállít(73)
 Fordul(pi/2+0.25) # itt akasztja be a pöcköt a rúd alá
 MenjPonthoz(183,YaPöcköléshez+20) # kicsit még közelebb megy
-DaruFelránt(280)
+DaruGyorsÁllítás(280)
 
 # innen kezdődik a jobb szemét progi
 MenjPonthoz(1081,781) # nagy sárga négyzet fölött, a szürke szemét magasságában
@@ -475,7 +504,7 @@ MenjPonthoz(2090,YaPöcköléshez)
 DaruBeállít(73)
 Fordul(pi/2+0.2) # itt akasztja be a pöcköt a rúd alá
 MenjPonthoz(2090,YaPöcköléshez-20) # kicsit még közelebb megy
-DaruFelránt(280)
+DaruGyorsÁllítás(280)
 
 # Megyünk a szemétlerakóba, de útba ejtjük a sárga szemetet
 MenjPonthoz(1901 ,630) # jobb sárga szemét közelébe
@@ -483,7 +512,7 @@ MenjPonthoz(310, 170) #Végállomásra
 DaruBeállít(100) # kissé leenged
 
 MarkolóNyit()
-DaruFelránt(300)
+DaruGyorsÁllítás(300)
 '''
 hub.speaker.beep(2000, 100)  
 
