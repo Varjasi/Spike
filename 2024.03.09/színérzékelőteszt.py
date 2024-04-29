@@ -18,4 +18,4 @@ while True:
 
         # Print the measured color and reflection.
     print(color)
-    wait(1000)
+    wait(300)

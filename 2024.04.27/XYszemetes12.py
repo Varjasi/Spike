@@ -97,12 +97,12 @@ def DaruFelránt(szög):
     daru.run_target(1000,-szög,Stop.HOLD,wait=True)
 
 def MarkolóNyit():
-    markoló.run_until_stalled(1000,Stop.BRAKE,60)
+    markoló.run_until_stalled(1000,Stop.BRAKE,60) #Az utolsó a terhelési nyomaték
     markoló.reset_angle(0)
 
 def MarkolóZár():
     markoló.run_until_stalled(-1000,Stop.BRAKE,70)
-
+ 
 def MarkolóBeállít(szög):
     markoló.run_target(1000,-szög,Stop.BRAKE,wait=True)
     
@@ -118,7 +118,7 @@ def SebességOlvasás(): # Az aktuális sebességet adja vissza mm/s-ben
 def Fordul(szög,maxsebesség=AlapSebesség,gyorsulás=AlapGyorsulás): # álló helyzetben fordulás
     # szög: az aktuális helyzethez képest ennyit fordul el, radiánban megadva
     s21 = szög*tengelytáv/2 # ennyi ívet tegyen meg egy-egy motor 
-    s1 = (Jobb_motor.angle()+Bal_motor.angle()) / 2 / fok_per_mm #Kiindulási ívhossz
+    s1 = (Jobb_motor.angle()+Bal_motor.angle()) / 2 / fok_per_mm #Kiindulási ívhossz 
     s2 = s1 + s21 #Úticél
     dv = gyorsulás * 0.005 #5 ms-onként mennyit változtathatunk a sebességen
     v = 0
@@ -350,7 +350,7 @@ def MenjPonthoz(X2, Y2, Utazósebesség=AlapSebesség ,Végsebesség=0, Előre=T
 
 def KezdetiHelyzetBeállítása():
     global X, Y
-    színérték=szín.hsv(True)
+    színérték=szín.hsv(True) #True: Tárgy sznét érzékeli, False: a környezet fényeit érzékeli
     if (színérték.s>20):     # Ha hídhoz közelebbi kiinduláson vagyunk akkor sárga felületen vagyunk
         X = IndulásiPozícióHidas.X 
         Y = IndulásiPozícióHidas.Y 
