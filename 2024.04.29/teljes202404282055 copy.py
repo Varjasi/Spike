@@ -20,13 +20,13 @@ hub = PrimeHub()
 szín = ColorSensor(Port.C)
 markoló = Motor(Port.D)
 class IndulásiPozíció:
-  async def __init__(self, X, Y, szög):
+  def __init__(self, X, Y, szög):
     self.X = X
     self.Y = Y
     self.szög = szög
 
 class SzínFeltételek:
-  async def __init__(self, HueMax, HueMin, SaturationMax, SaturationMin, VolumeMax, VolumeMin):
+  def __init__(self, HueMax, HueMin, SaturationMax, SaturationMin, VolumeMax, VolumeMin):
     self.HueMax = HueMax
     self.HueMin = HueMin
     self.SaturationMax = SaturationMax
@@ -70,11 +70,11 @@ SebességZaj = 100 # Ez alatt mondjuk azt, hogy kb. már áll a robot
 ÚtZaj = 1 # Ha ennél kisebb utat tett meg a robot 100ms alatt, akkor már a palánknak ütközött
 FaltolásEreje = 50 # Elég ahhoz, hogy menjen a robot, de kevés ahhoz, hogy megcsússzon a kerék
 
-async def clear(): # terminál ablak törlése
+def clear(): # terminál ablak törlése
     print("\x1b[H\x1b[3J", end="")
     print("\x1b[H\x1b[2J", end="")
 
-async def InitDataLogger(hossz):
+def InitDataLogger(hossz):
     global a
     global n_max
     global n
@@ -86,7 +86,7 @@ async def InitDataLogger(hossz):
     for i in range(2,n_max):
         a.append([0,0,0,i])
 
-async def PushData(v0,v1,v2,v3):
+def PushData(v0,v1,v2,v3):
     global n
     global a
     global n_max
@@ -94,7 +94,7 @@ async def PushData(v0,v1,v2,v3):
         a[n] = [v0,v1,v2,v3]
         n = n+1
 
-async def PrintLoggedData():
+def PrintLoggedData():
     global a
     global n
     # Kétdimenziós tömb kiíratása a terminálra. Figyelem! Legfeljebb az utolsó 1008 sor fog megmaradni.
@@ -103,37 +103,37 @@ async def PrintLoggedData():
             print(a[i][j], end=" ") 
         print()
 
-async def DaruKalibráció():
+def DaruKalibráció():
     daru.dc(20)
     wait(500)
     daru.reset_angle(0)
 
-async def DaruBeállít(szög):
+def DaruBeállít(szög):
     daru.run_target(200,-szög,Stop.BRAKE,wait=True)
     
-async def DaruGyorsÁllítás(szög,megvárja=True):
+def DaruGyorsÁllítás(szög,megvárja=True):
     daru.run_target(1000,-szög,Stop.HOLD,wait=megvárja)
 
-async def MarkolóNyit():
+def MarkolóNyit():
     markoló.run_until_stalled(1000,Stop.BRAKE,60)
     markoló.reset_angle(0)
 
-async def MarkolóZár():
+def MarkolóZár():
     markoló.run_until_stalled(-1000,Stop.BRAKE,70)
 
-async def MarkolóBeállít(szög):
+def MarkolóBeállít(szög):
     markoló.run_target(1000,-szög,Stop.BRAKE,wait=True)
     
-async def IrányOlvasás(): # A matematikai szöget adja vissza radiánban
+def IrányOlvasás(): # A matematikai szöget adja vissza radiánban
     return -pi/180*hub.imu.heading()
 
-async def ÚtOlvasás(): # Az indulástól megtett utat adja vissza mm-ben
+def ÚtOlvasás(): # Az indulástól megtett utat adja vissza mm-ben
     return (Jobb_motor.angle()-Bal_motor.angle()) / 2 / fok_per_mm
 
-async def SebességOlvasás(): # Az aktuális sebességet adja vissza mm/s-ben
+def SebességOlvasás(): # Az aktuális sebességet adja vissza mm/s-ben
     return (Jobb_motor.speed()-Bal_motor.speed()) / 2 / fok_per_mm
 
-async def Fordul(szög,maxsebesség=AlapSebesség,gyorsulás=AlapGyorsulás): # álló helyzetben fordulás
+def Fordul(szög,maxsebesség=AlapSebesség,gyorsulás=AlapGyorsulás): # álló helyzetben fordulás
     # szög: az aktuális helyzethez képest ennyit fordul el, radiánban megadva
     s21 = szög*tengelytáv/2 # ennyi ívet tegyen meg egy-egy motor 
     s1 = (Jobb_motor.angle()+Bal_motor.angle()) / 2 / fok_per_mm #Kiindulási ívhossz
@@ -172,7 +172,7 @@ async def Fordul(szög,maxsebesség=AlapSebesség,gyorsulás=AlapGyorsulás): # 
             break        
         wait(5)
 
-async def Mozgás(hossz, maxsebesség=AlapSebesség, gyorsulás=AlapGyorsulás, végsebesség=AlapSebesség, KezdőIrány=None, CélIrány=None):
+def Mozgás(hossz, maxsebesség=AlapSebesség, gyorsulás=AlapGyorsulás, végsebesség=AlapSebesség, KezdőIrány=None, CélIrány=None):
     # Hátra menetben csak a hossz negatív, a többi paraméter abszolút értéket jelent
     # Hossz: ennyit fog haladni, mm-ben
     # maxsebesség: menet közben erre gyorsul fel. Ha kanyarodni is akarunk, kisebb legyen az AlapSebességnél
@@ -272,7 +272,7 @@ async def Mozgás(hossz, maxsebesség=AlapSebesség, gyorsulás=AlapGyorsulás, 
         Jobb_motor.run(v_jobb * fok_per_mm)
         Bal_motor.run(-v_bal * fok_per_mm)
         IdőPont = idő.time()
-        CiklusIdő = IdőPont-CiklusKezdőIdő #Ciklus futási ideje
+        CiklusIdő = IdőPont-CiklusKezdőIdő
         if CiklusIdő>MaxCiklusIdő:
             MaxCiklusIdő = CiklusIdő
         CiklusKezdőIdő = IdőPont
@@ -281,15 +281,15 @@ async def Mozgás(hossz, maxsebesség=AlapSebesség, gyorsulás=AlapGyorsulás, 
             PushData(alfa_ref,alfa,X,Y)
 
 # HueMax, HueMin, SaturationMax, SaturationMin, VolumeMax, VolumeMin
-async def KeressFehéret():
+def KeressFehéret():
     global KeresendőSzín
     KeresendőSzín = SzínFeltételek(None,None,5,None,None,99) #!!!
 
-async def KeressFeketét():
+def KeressFeketét():
     global KeresendőSzín
     KeresendőSzín = SzínFeltételek(None,None,None,None,60,None) #!!!
 
-async def PozícióSzínnél():
+def PozícióSzínnél():
     global X, Y, Xszín, Yszín, szín
     Padlószín = szín.hsv()
     Elértük=True
@@ -316,7 +316,7 @@ async def PozícióSzínnél():
         Yszín = Y
 
 
-async def MenjFalnak():
+def MenjFalnak():
     global X, Y
     Jobb_motor.dc(-FaltolásEreje)
     Bal_motor.dc(FaltolásEreje)
@@ -357,6 +357,7 @@ async def MenjPonthoz(X2, Y2, Utazósebesség=AlapSebesség ,Végsebesség=0, El
     if Előre==False:
         alfa2 = alfa2 + pi # ha farolunk, 180-fokot fordulunk és rükverz
         s = -s
+        await main(X2, Y2)
     alfa1 = IrányOlvasás() #Kiindulási
     # attól függően fordulunk jobbra vagy balra, hogy hol érjük el hamarabb az irányt
     while (alfa2-alfa1)>pi:
@@ -371,7 +372,7 @@ async def MenjPonthoz(X2, Y2, Utazósebesség=AlapSebesség ,Végsebesség=0, El
     #print(v1,alfa1,alfa2)
     Mozgás(s,maxsebesség=Utazósebesség,végsebesség=Végsebesség,KezdőIrány=alfa2)
 
-async def KezdetiHelyzetBeállítása():
+def KezdetiHelyzetBeállítása():
     global X, Y, Hidas
     színérték=szín.hsv(True)
     Hidas = színérték.s>40
@@ -390,6 +391,10 @@ async def zene():
     #for x in dallam
     await hub.speaker.play_notes(dallam, tempo=120)
 
+#Multitask
+async def main(X2, Y2):
+    await multitask(MenjPonthoz(X2, Y2), zene())
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Itt kezdődnek a cselekmények
 adatgyűjtés = False
@@ -401,138 +406,136 @@ hub.speaker.play_notes(dallam, tempo=400) #Vészcsengő
 '''
 Meghívások
 '''
-async def main():
-    await multitask(MenjPonthoz(1081,723), zene())
 
-    # Megyünk bal szürke szemeteshez, de közben a darut kalibráljuk
-    await daru.dc(40)
-    await wait(200)
-    await daru.dc(20)
-    #KeressFeketét()
-    #print(KeresendőSzín.VolumeMax,KeresendőSzín.VolumeMin)
-    await MenjPonthoz(1081,772+3) # nagy sárga közepe fölé 20cm-rel
-    #print(Xszín,Yszín)
-    await daru.reset_angle(0)
-    await DaruGyorsÁllítás(78)
-    await MenjPonthoz(780+40,972) # szürke szemetes fölé megyünk
-    #print(Xszín,Yszín)
+KezdetiHelyzetBeállítása()
 
-    # felkapjuk a szürke szemetest
-    await DaruBeállít(65)
-    await MarkolóZár()
-    await DaruBeállít(280)
+# Megyünk bal szürke szemeteshez, de közben a darut kalibráljuk
+daru.dc(40)
+wait(200)
+daru.dc(20)
+#KeressFeketét()
+#print(KeresendőSzín.VolumeMax,KeresendőSzín.VolumeMin)
+MenjPonthoz(1081,772+3) # nagy sárga közepe fölé 20cm-rel
+#print(Xszín,Yszín)
+daru.reset_angle(0)
+DaruGyorsÁllítás(78)
+MenjPonthoz(780+40,972) # szürke szemetes fölé megyünk
+#print(Xszín,Yszín)
 
-    # Megyünk a szemétlerakóba, de útba ejtjük a sárga szemetet
-    await MenjPonthoz(921,687+20+20) #Sárga szemét közelébe
-    await MenjPonthoz(310, 170+20+20) #Végállomásra
-    await DaruBeállít(100)
-    await MarkolóNyit()
-    await DaruGyorsÁllítás(300)
+# felkapjuk a szürke szemetest
+DaruBeállít(65)
+MarkolóZár()
+DaruBeállít(280)
 
-    # Pozciót kalibráljuk, alsó, majd a bal palánknak ütközve
-    await MenjPonthoz(504,310,Előre=False)
-    await MenjPonthoz(504,98,Végsebesség=200,Előre=False)
-    await MenjFalnak() # Y-t beállítottuk
-    YaPöcköléshez=240
-    await MenjPonthoz(504,YaPöcköléshez,Előre=True)
-    await MenjPonthoz(98,YaPöcköléshez,Végsebesség=200,Előre=False)
-    await MenjFalnak()
+# Megyünk a szemétlerakóba, de útba ejtjük a sárga szemetet
+MenjPonthoz(921,687+20+20) #Sárga szemét közelébe
+MenjPonthoz(310, 170+20+20) #Végállomásra
+DaruBeállít(100)
+MarkolóNyit()
+DaruGyorsÁllítás(300)
 
-    # a vízvezeték mellé állunk és a pöcökkel aláfordulunk, majd felrántjuk
-    await MenjPonthoz(183,YaPöcköléshez)
-    await DaruBeállít(73)
-    await Fordul(pi/2+0.25) # itt akasztja be a pöcköt a rúd alá
-    await MenjPonthoz(183,YaPöcköléshez+20) # kicsit még közelebb megy
-    await DaruGyorsÁllítás(280)
+# Pozciót kalibráljuk, alsó, majd a bal palánknak ütközve
+MenjPonthoz(504,310,Előre=False)
+MenjPonthoz(504,98,Végsebesség=200,Előre=False)
+MenjFalnak() # Y-t beállítottuk
+YaPöcköléshez=240
+MenjPonthoz(504,YaPöcköléshez,Előre=True)
+MenjPonthoz(98,YaPöcköléshez,Végsebesség=200,Előre=False)
+MenjFalnak()
 
-    # innen kezdődik a jobb szemét progi
-    await MenjPonthoz(1081,781) # nagy sárga négyzet fölött, a szürke szemét magasságában
-    await MenjPonthoz(2026-208,781)
-    await DaruBeállít(65)
-    await MarkolóZár() # megfogtuk a szemetet
-    await DaruBeállít(280)
+# a vízvezeték mellé állunk és a pöcökkel aláfordulunk, majd felrántjuk
+MenjPonthoz(183,YaPöcköléshez)
+DaruBeállít(73)
+Fordul(pi/2+0.25) # itt akasztja be a pöcköt a rúd alá
+MenjPonthoz(183,YaPöcköléshez+20) # kicsit még közelebb megy
+DaruGyorsÁllítás(280)
 
-    # újra kalibráljuk Y a felső palánkhoz ütközve
-    await MenjPonthoz(X, 1040, Előre=False, Végsebesség=200)
-    await MenjFalnak()
-    YaPöcköléshez=811
-    await MenjPonthoz(X,YaPöcköléshez)
-    # újra kalibráljuk X-t a jobb palánkhoz ütközve
-    await MenjPonthoz(2260,YaPöcköléshez, Előre=False, Végsebesség=200)
-    await MenjFalnak()
+# innen kezdődik a jobb szemét progi
+MenjPonthoz(1081,781) # nagy sárga négyzet fölött, a szürke szemét magasságában
+MenjPonthoz(2026-208,781)
+DaruBeállít(65)
+MarkolóZár() # megfogtuk a szemetet
+DaruBeállít(280)
 
-    # jobb vízvezeték felpöckölési procedúra
-    await MenjPonthoz(2090,YaPöcköléshez)
-    await DaruBeállít(73)
-    await Fordul(pi/2+0.2) # itt akasztja be a pöcköt a rúd alá
-    await MenjPonthoz(2090,YaPöcköléshez-20) # kicsit még közelebb megy
-    await DaruGyorsÁllítás(280)
+# újra kalibráljuk Y a felső palánkhoz ütközve
+MenjPonthoz(X, 1040, Előre=False, Végsebesség=200)
+MenjFalnak()
+YaPöcköléshez=811
+MenjPonthoz(X,YaPöcköléshez)
+# újra kalibráljuk X-t a jobb palánkhoz ütközve
+MenjPonthoz(2260,YaPöcköléshez, Előre=False, Végsebesség=200)
+MenjFalnak()
 
-    # Megyünk a szemétlerakóba, de útba ejtjük a sárga szemetet
-    await MenjPonthoz(1901 ,630) # jobb sárga szemét közelébe
-    await MenjPonthoz(310, 170) #Végállomásra
-    await DaruBeállít(100) # kissé leenged
+# jobb vízvezeték felpöckölési procedúra
+MenjPonthoz(2090,YaPöcköléshez)
+DaruBeállít(73)
+Fordul(pi/2+0.2) # itt akasztja be a pöcköt a rúd alá
+MenjPonthoz(2090,YaPöcköléshez-20) # kicsit még közelebb megy
+DaruGyorsÁllítás(280)
 
-    await MarkolóNyit()
-    await DaruGyorsÁllítás(300)
+# Megyünk a szemétlerakóba, de útba ejtjük a sárga szemetet
+MenjPonthoz(1901 ,630) # jobb sárga szemét közelébe
+MenjPonthoz(310, 170) #Végállomásra
+DaruBeállít(100) # kissé leenged
 
-    # Pozciót kalibráljuk, alsó palánknak ütközve
-    await MenjPonthoz(500,210,Előre=False)
-    await MenjPonthoz(500,98,Végsebesség=200,Előre=False)
-    await MenjFalnak() # Y-t beállítottuk
+MarkolóNyit()
+DaruGyorsÁllítás(300)
 
-    # közelítünk a piros kockához
-    await MenjPonthoz(500, 58+35)  # eljöttünk a faltal egy kicsit
-    await KeressFehéret()
-    await MenjPonthoz(700, 76, Utazósebesség=100,Végsebesség=0) # beállunk a kocka magasságába
-    X+=627+s_színérzékelő-Xszín+5 # a sárga téglalap bal szélének X koordinátája = 627
-    await DaruGyorsÁllítás(88,False)
-    #print(X,Y)
-    #wait(5000)
-    await MenjPonthoz(1094-208+10,76, Utazósebesség=200) # második piros fölött van a markoló
+# Pozciót kalibráljuk, alsó palánknak ütközve
+MenjPonthoz(500,210,Előre=False)
+MenjPonthoz(500,98,Végsebesség=200,Előre=False)
+MenjFalnak() # Y-t beállítottuk
 
-    # Fölkapjuk a piros kockát
-    await DaruBeállít(78)
-    await MarkolóZár()
-    await DaruBeállít(108)
+# közelítünk a piros kockához
+MenjPonthoz(500, 58+35)  # eljöttünk a faltal egy kicsit
+KeressFehéret()
+MenjPonthoz(700, 76, Utazósebesség=100,Végsebesség=0) # beállunk a kocka magasságába
+X+=627+s_színérzékelő-Xszín+5 # a sárga téglalap bal szélének X koordinátája = 627
+DaruGyorsÁllítás(88,False)
+#print(X,Y)
+#wait(5000)
+MenjPonthoz(1094-208+10,76, Utazósebesség=200) # második piros fölött van a markoló
 
-    # A két piros színű kockát a helyére visszük
-    await MenjPonthoz(X-200,Y+20,Előre=False, Utazósebesség=200) #
-    await MenjPonthoz(881,150)
-    await MenjPonthoz(881,572-108+0)
-    await DaruBeállít(150)
-    await MenjPonthoz(881,572-108+0-57,Előre=False, Utazósebesség=200)
-    await MarkolóNyit()
-    await DaruGyorsÁllítás(280,False)
+# Fölkapjuk a piros kockát
+DaruBeállít(78)
+MarkolóZár()
+DaruBeállít(108)
 
-    # indulás a sárga kockákhoz
-    Xsárga=881
-    await MenjPonthoz(Xsárga,105, Előre=False, Végsebesség=200)
-    await MenjFalnak()
-    await MenjPonthoz(Xsárga,58+25)
-    await wait(200)
-    await MenjPonthoz(Xsárga+2*98,80) # második sárga fölött van a markoló
+# A két piros színű kockát a helyére visszük
+MenjPonthoz(X-200,Y+20,Előre=False, Utazósebesség=200) #
+MenjPonthoz(881,150)
+MenjPonthoz(881,572-108+0)
+DaruBeállít(150)
+MenjPonthoz(881,572-108+0-57,Előre=False, Utazósebesség=200)
+MarkolóNyit()
+DaruGyorsÁllítás(280,False)
 
-    # Fölkapjuk a yellow kockát
-    await DaruBeállít(78)
-    await MarkolóZár()
-    await DaruBeállít(108)
+# indulás a sárga kockákhoz
+Xsárga=881
+MenjPonthoz(Xsárga,105, Előre=False, Végsebesség=200)
+MenjFalnak()
+MenjPonthoz(Xsárga,58+25)
+wait(200)
+MenjPonthoz(Xsárga+2*98,80) # második sárga fölött van a markoló
 
-    # A két yellow színű kockát a helyére visszük
-    await MenjPonthoz(X-200,Y+20,Előre=False, Utazósebesség=200)
-    await MenjPonthoz(Xsárga+200,150, Utazósebesség=200)
-    await MenjPonthoz(Xsárga+200,572-108+0, Utazósebesség=200)
-    await DaruBeállít(150)
-    await MenjPonthoz(Xsárga+200,572-108+0-57,Előre=False, Utazósebesség=200)
-    await MarkolóNyit()
-    #DaruGyorsÁllítás(280,True)
+# Fölkapjuk a yellow kockát
+DaruBeállít(78)
+MarkolóZár()
+DaruBeállít(108)
 
-    await hub.speaker.beep(2000, 100)  
+# A két yellow színű kockát a helyére visszük
+MenjPonthoz(X-200,Y+20,Előre=False, Utazósebesség=200)
+MenjPonthoz(Xsárga+200,150, Utazósebesség=200)
+MenjPonthoz(Xsárga+200,572-108+0, Utazósebesség=200)
+DaruBeállít(150)
+MenjPonthoz(Xsárga+200,572-108+0-57,Előre=False, Utazósebesség=200)
+MarkolóNyit()
+#DaruGyorsÁllítás(280,True)
 
-    await Jobb_motor.brake()
-    await Bal_motor.brake()
+hub.speaker.beep(2000, 100)  
 
-run_task(main())
+Jobb_motor.brake()
+Bal_motor.brake()
 print(f'Kezdőidő: {kezdőidő}, Végidő: {idő.time()}, Ciklus futási ideje: {MaxCiklusIdő}')
 if adatgyűjtés:
     clear()

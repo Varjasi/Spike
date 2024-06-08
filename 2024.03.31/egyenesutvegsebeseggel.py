@@ -4,6 +4,8 @@ from pybricks.parameters import Port
 from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import ColorSensor
 from pybricks.tools import wait, StopWatch
+from pybricks.tools import multitask, run_task
+
 Jobb_motor = Motor(Port.B)
 Bal_motor = Motor(Port.A)
 
@@ -19,12 +21,12 @@ tengelytáv = 128
 distance_to_degree = 360/3.1416/kerékátmérő
 SzögSzab = 5 # mm/s/fok
 
-def clear(): # terminál ablak törlése
+async def clear(): # terminál ablak törlése
     print("\x1b[H\x1b[3J", end="")
     print("\x1b[H\x1b[2J", end="")
 
 # Kanyarodás állandó sebességgel (giroszkóppal)
-def kanyar(szög, sebesség, sugár):
+async def kanyar(szög, sebesség, sugár):
     if szög > 0:
         v_bal = sebesség * (sugár + tengelytáv / 2)/sugár
         v_jobb = sebesség * (sugár - tengelytáv / 2)/sugár
@@ -43,8 +45,8 @@ def kanyar(szög, sebesség, sugár):
         else:
             if hub.imu.heading() < szög2:
                 break
-
-def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
+ 
+async def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
     global n
     global n_max
     global distance_to_degree
@@ -89,23 +91,36 @@ def PontOdáigMegy(hossz, maxsebesség, gyorsulás,végsebesség,irány=None):
         Bal_motor.run(-v_bal * distance_to_degree)
 
         wait(5)
+async def zene():
+    hub.speaker.volume(10)
+    #await hub.speaker.beep(440,1000)
+    dallam = ["C4/4", "C4/4", "G4/4", "G4/4"]
+    #for x in dallam
+    await hub.speaker.play_notes(dallam, tempo=120)
 
-# Fusi helyfoglalás 4*100 kétdimenziós tömbnek a rekorder funkcióhoz
-#pritty pratty putty
+'''
+MEGHÍVÁSOK
+'''
+async def main():
+    # Fusi helyfoglalás 4*100 kétdimenziós tömbnek a rekorder funkcióhoz
+    #pritty pratty putty
 
-Bal_motor.reset_angle(0)
-Jobb_motor.reset_angle(0)
-#Bal_motor.run_time(-100, 1000)
-#Jobb_motor.run_time(100, 1000)
+    Bal_motor.reset_angle(0)
+    Jobb_motor.reset_angle(0)
+    #Bal_motor.run_time(-100, 1000)
+    #Jobb_motor.run_time(100, 1000)
 
-PontOdáigMegy(1000, -200, 300, 0)
-kanyar(90, 400, 180)
-#PontOdáigMegy(400, 200, 300, 100, 180)
-#PontOdáigMegy(100, 200, 300, 100,360)
+    await PontOdáigMegy(1000, -200, 300, 0)
+    await kanyar(90, 400, 180)
+    await multitask(PontOdáigMegy(1000, -200, 300, 0), zene())
+    #PontOdáigMegy(400, 200, 300, 100, 180)
+    #PontOdáigMegy(100, 200, 300, 100,360)
 
-#PontOdáigMegy(100, 50, 300, 0)  
+    #PontOdáigMegy(100, 50, 300, 0)  
 
-Jobb_motor.hold()
-Bal_motor.hold()
+    Jobb_motor.hold()
+    Bal_motor.hold()
 
-#print(distance_to_degree)
+    #print(distance_to_degree)
+
+run_task(main())
